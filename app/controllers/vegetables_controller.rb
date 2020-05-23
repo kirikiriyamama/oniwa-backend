@@ -1,4 +1,10 @@
 class VegetablesController < ApplicationController
+  def index
+    @vegetables = Vegetable.all.map { |vegetable| { id: vegetable.id, name: vegetable.name } }
+
+    render json: { vegetables: @vegetables }
+  end
+
   def create
     @vegetable = Vegetable.new(name: params[:name])
 

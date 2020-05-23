@@ -19,4 +19,29 @@ RSpec.describe 'Vegetable' do
       end
     end
   end
+
+  describe '野菜の一覧' do
+    it '登録した野菜の情報が全て返ってくること' do
+      vegetable_1 = Vegetable.create(name: 'トマト')
+      vegetable_2 = Vegetable.create(name: '大葉')
+
+      get vegetables_path
+
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body).deep_symbolize_keys).to eq(
+        {
+          vegetables: [
+            {
+              id: vegetable_1.id,
+              name: vegetable_1.name
+            },
+            {
+              id: vegetable_2.id,
+              name: vegetable_2.name
+            }
+          ]
+        }
+      )
+    end
+  end
 end
