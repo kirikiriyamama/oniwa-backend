@@ -8,5 +8,15 @@ RSpec.describe 'Vegetable' do
       expect(JSON.parse(response.body)['vegetable']['id']).to eq Vegetable.last.id
       expect(JSON.parse(response.body)['vegetable']['name']).to eq 'ブロッコリー'
     end
+
+    context '野菜の名前が nil の場合' do
+      it 'エラーを返すこと' do
+        expect {
+          post vegetables_path, params: { name: nil }
+        }.not_to change(Vegetable, :count)
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body)['errors'][0]['message']).to eq '野菜の名前を入力してください'
+      end
+    end
   end
 end
