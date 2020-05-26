@@ -26,4 +26,11 @@ class VegetablesController < ApplicationController
       render status: 400, json: { errors: error_messages }
     end
   end
+
+  def destroy
+    @vegetable = Vegetable.find(params[:id])
+    @vegetable.destroy!
+
+    render status: 200
+  end
 end

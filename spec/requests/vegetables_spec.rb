@@ -88,4 +88,15 @@ RSpec.describe 'Vegetable' do
       end
     end 
   end
+
+  describe '野菜の削除' do
+    it do
+      vegetable = Vegetable.create(name: 'ピーマン')
+
+      expect {
+        delete vegetable_path(vegetable)
+      }.to change(Vegetable, :count).by(-1)
+      expect(response).to have_http_status(200)
+    end
+  end
 end
