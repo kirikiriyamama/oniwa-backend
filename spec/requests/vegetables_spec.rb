@@ -54,4 +54,38 @@ RSpec.describe 'Vegetable' do
       )
     end
   end
+
+  describe '野菜の編集' do
+    it '編集した野菜の情報が返ってくること' do
+      vegetable = Vegetable.create(name: 'バジル')
+
+      patch vegetable_path(vegetable), params: { name: 'パクチー' }
+
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body).deep_symbolize_keys).to eq(
+        {
+          vegetable: {
+            id: Vegetable.last.id,
+            name: 'パクチー'
+          }
+        }
+      )
+    end
+
+    context '野菜の名前が nil の場合' do
+      it 'エラーを返すこと' do
+        vegetable = Vegetable.create(name: 'パプリカ')
+
+        expect {
+          patch vegetable_path(vegetable), params: { name: nil }
+        }.to_not change(vegetable.reload, :name)
+        expect(response).to have_http_status(400)
+        expect(JSON.parse(response.body).deep_symbolize_keys).to eq(
+          errors: [
+            { message: '野菜の名前を入力してください' }
+          ]
+        )
+      end
+    end 
+  end
 end
