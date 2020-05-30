@@ -1,18 +1,22 @@
 version: 2.1
 jobs:
-  backend-build:
+  build:
     docker:
       - image: circleci/ruby:2.7.1
       - image: circleci/mysql:8.0.17
     steps:
       - checkout
       - restore_cache:
-        key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
-      - run: bundle install --path vendor/bundle
-      - run: bundle clean
+          key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
+      - run:
+          command: |
+            bundle install --path vendor/bundle
+            bundle clean
       - save_cache:
-        key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
-        paths:
-          - ./vendor/bundle
-      - run: bundle exec rails db:create db:schema:load
-      - run: bundle exec rspec
+          key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+      - run:
+          command: |
+            bundle exec rails db:create db:schema:load
+            bundle exec rspec
