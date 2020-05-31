@@ -32,8 +32,8 @@ RSpec.describe 'Vegetable' do
 
   describe '野菜の一覧' do
     it '登録した野菜の情報が全て返ってくること' do
-      vegetable_1 = Vegetable.create(name: 'トマト', created_at: '2020-01-01')
-      vegetable_2 = Vegetable.create(name: '大葉', created_at: '2019-12-31')
+      vegetable_1 = travel_to(Time.zone.local(2020, 01, 01)) { Vegetable.create(name: 'トマト') }
+      vegetable_2 = travel_to(Time.zone.local(2019, 12, 31)) { Vegetable.create(name: '大葉') }
 
       get vegetables_path
 
