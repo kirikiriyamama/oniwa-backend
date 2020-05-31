@@ -1,6 +1,6 @@
 class VegetablesController < ApplicationController
   def index
-    @vegetables = Vegetable.all.map { |vegetable| { id: vegetable.id, name: vegetable.name } }
+    @vegetables = Vegetable.all.order(:created_at).map { |vegetable| { id: vegetable.id, name: vegetable.name } }
 
     render json: { vegetables: @vegetables }
   end

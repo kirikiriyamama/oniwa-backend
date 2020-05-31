@@ -32,8 +32,8 @@ RSpec.describe 'Vegetable' do
 
   describe '野菜の一覧' do
     it '登録した野菜の情報が全て返ってくること' do
-      vegetable_1 = Vegetable.create(name: 'トマト')
-      vegetable_2 = Vegetable.create(name: '大葉')
+      vegetable_1 = Vegetable.create(name: 'トマト', created_at: '2020-01-01')
+      vegetable_2 = Vegetable.create(name: '大葉', created_at: '2019-12-31')
 
       get vegetables_path
 
@@ -42,12 +42,12 @@ RSpec.describe 'Vegetable' do
         {
           vegetables: [
             {
-              id: vegetable_1.id,
-              name: vegetable_1.name
-            },
-            {
               id: vegetable_2.id,
               name: vegetable_2.name
+            },
+            {
+              id: vegetable_1.id,
+              name: vegetable_1.name
             }
           ]
         }
