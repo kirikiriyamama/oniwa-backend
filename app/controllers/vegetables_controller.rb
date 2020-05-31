@@ -31,6 +31,6 @@ class VegetablesController < ApplicationController
     @vegetable = Vegetable.find(params[:id])
     @vegetable.destroy!
 
-    render status: 200
+    head 200
   end
 end
