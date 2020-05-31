@@ -1,0 +1,25 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.7.1
+        environment:
+          ONIWA_DATABASE_HOST: 127.0.0.1
+      - image: circleci/mysql:8.0.17
+        command: --default-authentication-plugin=mysql_native_password
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
+      - run:
+          command: |
+            bundle install --path vendor/bundle
+            bundle clean
+      - save_cache:
+          key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ./vendor/bundle
+      - run:
+          command: |
+            bundle exec rails db:create db:schema:load
+            bundle exec rspec
