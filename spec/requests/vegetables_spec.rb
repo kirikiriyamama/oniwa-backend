@@ -23,7 +23,7 @@ RSpec.describe 'Vegetable' do
         expect(response).to have_http_status(400)
         expect(JSON.parse(response.body).deep_symbolize_keys).to eq(
           errors: [
-            { message: '野菜の名前を入力してください' }
+            { message: '名前を入力してください' }
           ]
         )
       end
@@ -82,7 +82,7 @@ RSpec.describe 'Vegetable' do
         expect(response).to have_http_status(400)
         expect(JSON.parse(response.body).deep_symbolize_keys).to eq(
           errors: [
-            { message: '野菜の名前を入力してください' }
+            { message: '名前を入力してください' }
           ]
         )
       end
