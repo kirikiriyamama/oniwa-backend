@@ -21,5 +21,6 @@ jobs:
             - ./vendor/bundle
       - run:
           command: |
+            dockerize -wait tcp://localhost:3306 -timeout 1m
             bundle exec rails db:create db:schema:load
             bundle exec rspec
