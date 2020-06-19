@@ -19,7 +19,6 @@ jobs:
           key: v1-oniwa-backend-gem-{{ checksum "Gemfile.lock" }}
           paths:
             - ./vendor/bundle
-      - run:
-          command: |
-            bundle exec rails db:create db:schema:load
-            bundle exec rspec
+      - run: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: bundle exec rails db:create db:schema:load
+      - run: bundle exec rspec
